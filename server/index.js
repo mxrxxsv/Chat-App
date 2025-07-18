@@ -1,8 +1,10 @@
+require("dotenv").config();
+
+
 const express = require("express");
 const http = require("http");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 
@@ -12,7 +14,6 @@ const Message = require("./models/Message");
 const connectDB = require("./config/db");
 const path = require("path");
 
-dotenv.config();
 connectDB();
 
 const app = express();
