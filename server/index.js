@@ -89,15 +89,15 @@ io.on("connection", (socket) => {
 
   // Edit a message
   socket.on("editMessage", async ({ _id, text, roomId }) => {
-    try {
-      const updated = await Message.findByIdAndUpdate(_id, { text }, { new: true });
-      if (updated) {
-        io.to(roomId).emit("messageUpdated", updated);
-      }
-    } catch (err) {
-      console.error("✏️ Edit failed:", err.message);
+  try {
+    const updated = await Message.findByIdAndUpdate(_id, { text }, { new: true });
+    if (updated) {
+      io.to(roomId).emit("messageUpdated", updated);
     }
-  });
+  } catch (err) {
+    console.error("✏️ Edit failed:", err.message);
+  }
+});
 
 
   // Delete a message
@@ -119,7 +119,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "dist", "index.html"));
   });
 }
-
 
 
 const PORT = process.env.PORT || 5000;
