@@ -28,16 +28,11 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true, // Allow all origins
     credentials: true,
   })
 );
+
 
 
 
@@ -61,10 +56,11 @@ app.get("/api/messages/:roomId", async (req, res) => {
 // SOCKET.IO
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: true,
     credentials: true
   }
 });
+
 
 
 io.on("connection", (socket) => {
