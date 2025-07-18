@@ -21,11 +21,25 @@ const server = http.createServer(app);
 
 const onlineUsers = new Map(); // socket.id -> { userId, username }
 
-const corsOptions = {
-  origin: "https://chat-app-i27y.vercel.app",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+const allowedOrigins = [
+  "https://chat-app-i27y.vercel.app",
+  "https://chat-app-i27y-marius-projects-62e58208.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
+
 
 
 app.use(express.json());
@@ -47,7 +61,7 @@ app.get("/api/messages/:roomId", async (req, res) => {
 // SOCKET.IO
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-app-i27y.vercel.app",
+    origin: allowedOrigins,
     credentials: true
   }
 });
@@ -93,15 +107,15 @@ io.on("connection", (socket) => {
 
   // Edit a message
   socket.on("editMessage", async ({ _id, text, roomId }) => {
-  try {
-    const updated = await Message.findByIdAndUpdate(_id, { text }, { new: true });
-    if (updated) {
-      io.to(roomId).emit("messageUpdated", updated);
+    try {
+      const updated = await Message.findByIdAndUpdate(_id, { text }, { new: true });
+      if (updated) {
+        io.to(roomId).emit("messageUpdated", updated);
+      }
+    } catch (err) {
+      console.error("✏️ Edit failed:", err.message);
     }
-  } catch (err) {
-    console.error("✏️ Edit failed:", err.message);
-  }
-});
+  });
 
 
   // Delete a message
