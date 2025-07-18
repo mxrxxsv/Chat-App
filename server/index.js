@@ -47,10 +47,11 @@ app.get("/api/messages/:roomId", async (req, res) => {
 // SOCKET.IO
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://chat-app-i27y.vercel.app",
     credentials: true
   }
 });
+
 
 io.on("connection", (socket) => {
   console.log("🔌 New Socket Connected:", socket.id);
