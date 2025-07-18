@@ -7,9 +7,6 @@ const authenticate = require("../middleware/authenticate");
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
-// Helper to determine if running in production
-const isProd = process.env.NODE_ENV === "production";
-
 // Signup Route
 router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
@@ -45,9 +42,9 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isProd,            // TRUE only in production (HTTPS)
-      sameSite: isProd ? "none" : "lax", // "none" if cross-site, must pair with secure:true
-      maxAge: 86400000,          // 1 day
+      secure: false, // true if you're using HTTPS
+      sameSite: "lax",
+      maxAge: 86400000,
     });
 
     res.json({ user: { id: user._id, username: user.username } });
@@ -64,11 +61,7 @@ router.get("/me", authenticate, (req, res) => {
 
 // Logout
 router.post("/logout", (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? "none" : "lax",
-  }).json({ msg: "Logged out" });
+  res.clearCookie("token").json({ msg: "Logged out" });
 });
 
 module.exports = router;

@@ -21,23 +21,11 @@ const server = http.createServer(app);
 
 const onlineUsers = new Map(); // socket.id -> { userId, username }
 
-const allowedOrigins = [
-  "https://chat-app-i27y.vercel.app",
-  "https://chat-app-i27y-5oyv91m79-marius-projects-62e58208.vercel.app"
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: "https://chat-app-i27y.vercel.app",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 
 app.use(express.json());
