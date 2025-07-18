@@ -22,7 +22,10 @@ const server = http.createServer(app);
 const onlineUsers = new Map(); // socket.id -> { userId, username }
 
 const corsOptions = {
-  origin: "https://chat-app-i27y.vercel.app",
+  origin: [
+    "https://chat-app-i27y.vercel.app",
+    "https://chat-app-i27y-kpnbi0yzs-marius-projects-62e58208.vercel.app", // add this too
+  ],
   credentials: true,
 };
 app.use(cors(corsOptions));
