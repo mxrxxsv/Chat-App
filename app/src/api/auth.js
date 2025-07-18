@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://chat-app-22wh.onrender.com/api",
   withCredentials: true, // allow cookies
 });
 

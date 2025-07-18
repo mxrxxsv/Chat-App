@@ -21,10 +21,12 @@ const server = http.createServer(app);
 
 const onlineUsers = new Map(); // socket.id -> { userId, username }
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+const corsOptions = {
+  origin: "https://chat-app-i27y.vercel.app",
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 
 app.use(express.json());
 app.use(cookieParser());
