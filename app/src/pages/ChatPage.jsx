@@ -28,7 +28,7 @@ export default function ChatPage() {
         const res = await getCurrentUser();
         setUser(res.data.user);
 
-        socketRef.current = io("http://localhost:5000", {
+        socketRef.current = io("https://chat-app-22wh.onrender.com", {
           withCredentials: true,
         });
 
@@ -76,7 +76,7 @@ export default function ChatPage() {
     socketRef.current.emit("join", roomId);
 
     axios
-      .get(`http://localhost:5000/api/messages/${roomId}`, {
+      .get(`https://chat-app-22wh.onrender.com/api/messages/${roomId}`, {
         withCredentials: true,
       })
       .then((res) => setMessages(res.data))

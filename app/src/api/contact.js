@@ -1,6 +1,6 @@
 // src/api/contact.js
 import axios from "axios";
-const API = axios.create({ baseURL: "http://localhost:5000/api/contacts", withCredentials: true });
+const API = axios.create({ baseURL: "https://chat-app-22wh.onrender.com/api/contacts", withCredentials: true });
 
 export const getContacts = () => API.get("/list");
 export const getUsers = () => API.get("/others");
